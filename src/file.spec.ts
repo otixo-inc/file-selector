@@ -16,14 +16,18 @@ describe('toFile()', () => {
         expect(fileWithPath.type).toBe(type);
     });
 
-    it('does not overwrite {path} if it exists', () => {
+    /*
+      In otixo we send the the relative path to the server to determine folder structure.
+      We don't want to use Electron's absolute path.
+    */
+    it('overwrites {path} if it exists', () => {
         const fullPath = '/Users/test/Desktop/test/test.json';
         const path = '/test/test.json';
         const file = new File([], 'test.json');
         // @ts-ignore
         file.path = fullPath; // this is set only in the case of an electron app
         const fileWithPath = toFileWithPath(file, path);
-        expect(fileWithPath.path).toBe(fullPath);
+        expect(fileWithPath.path).toBe(path);
     });
 
     it('sets the {path} if provided', () => {
